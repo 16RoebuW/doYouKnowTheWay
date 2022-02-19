@@ -66,6 +66,7 @@ namespace doYouKnowTheWay
             SolidBrush brushObstacle = new SolidBrush(Color.Red);
             SolidBrush brushStart = new SolidBrush(Color.Lime);
             SolidBrush brushEnd = new SolidBrush(Color.Gold);
+            SolidBrush brushPath = new SolidBrush(Color.RoyalBlue);
 
             for (int i = 0; i < x; i++)
             {
@@ -85,6 +86,10 @@ namespace doYouKnowTheWay
                     else if (square.type ==  SquareType.EndPoint)
                     {
                         brush = brushEnd;
+                    }
+                    else if (square.isPath)
+                    {
+                        brush = brushPath;
                     }
 
                     g.FillRectangle(brush, i * w, j * h, w, h);
@@ -203,6 +208,9 @@ namespace doYouKnowTheWay
 
             foreach (GridSquare g in grid)
             {
+                g.visited = false;
+                g.isPath = false;
+
                 if (g.type != SquareType.Obstacle)
                 {
                     unvisitedNodes.Add(g);
@@ -270,7 +278,17 @@ namespace doYouKnowTheWay
                     break;                   
                 }
             }
-            //lblStatus.Text = "Shortest route found!";
+
+            // Retrace steps to show path
+            currentNode = destinationNode.previous;
+
+            while (currentNode.type != SquareType.StartPoint)
+            {
+                currentNode.isPath = true;
+                currentNode = currentNode.previous;
+            }
+
+            DrawGrid(gridSize.X, gridSize.Y);
         }
 
         private List<GridSquare> GetUnvisitedNeighbours(GridSquare currentNode)

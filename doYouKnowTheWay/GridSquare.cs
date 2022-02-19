@@ -11,7 +11,7 @@ namespace doYouKnowTheWay
         Normal,
         Obstacle,
         StartPoint,
-        EndPoint
+        EndPoint,
     }
     class GridSquare : IComparable<GridSquare>
     {
@@ -20,6 +20,7 @@ namespace doYouKnowTheWay
         public SquareType type;
         public bool visited;
         public int tentativeDist;
+        public bool isPath;
         public GridSquare previous;
 
         /// <summary>
